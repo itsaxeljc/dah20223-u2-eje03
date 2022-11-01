@@ -44,4 +44,10 @@ export class StudentService {
     return this.students;
   }
 
+  public removeStudent(pos: number): Student[]{
+    this.students.splice(pos, 1);
+    return this.students;
+  }
+
+
 }
