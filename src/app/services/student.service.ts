@@ -17,7 +17,8 @@ export class StudentService {
         curp: "AOVI840917HNTRZS09",
         email: "iarjona@ittepic.edu.mx",
         name: "Israel Arjona Vizcaíno",
-        nip: 717
+        nip: 717,
+        photo: 'https://picsum.photos/600/?random=1'
       }, 
       {
         controlnumber: "12400391",
@@ -26,7 +27,8 @@ export class StudentService {
         curp: "AOCI840917HNTRZS09",
         email: "iarjona2@ittepic.edu.mx",
         name: "Israel Arjona Castañeda",
-        nip: 818
+        nip: 818,
+        photo: 'https://picsum.photos/600/?random=2'
       },
       {
         controlnumber: "22400391",
@@ -35,7 +37,8 @@ export class StudentService {
         curp: "OOCI840917HNTRZS09",
         email: "iarjona3@ittepic.edu.mx",
         name: "Israel Arjona Méndez",
-        nip: 919
+        nip: 919,
+        photo: 'https://picsum.photos/600/?random=3'
       }
     ];
   }
@@ -49,5 +52,11 @@ export class StudentService {
     return this.students;
   }
 
+  public getStudentByControlNumber(controlnumber: string): Student {
+    let item: Student = this.students.find((student)=> {
+      return student.controlnumber===controlnumber;
+    });
+    return item;
+  }
 
 }

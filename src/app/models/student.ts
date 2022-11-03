@@ -6,4 +6,5 @@ export class Student {
     nip: number;
     email: string;
     career: string;
+    photo: string;
 }
