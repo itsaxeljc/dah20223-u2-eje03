@@ -59,4 +59,9 @@ export class StudentService {
     return item;
   }
 
+  public newStudent(student: Student): Student[] {
+    this.students.push(student);
+    return this.students;
+  }
+
 }

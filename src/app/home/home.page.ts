@@ -56,4 +56,8 @@ export class HomePage {
     });
   }
 
+  public goToNewStudent(): void {
+    this.router.navigate(['/new-student']);
+  }
+
 }
