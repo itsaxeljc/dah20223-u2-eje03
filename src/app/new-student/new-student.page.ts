@@ -1,7 +1,11 @@
+/* eslint-disable quote-props */
+/* eslint-disable @typescript-eslint/quotes */
+/* eslint-disable max-len */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Student } from '../models/student';
 import { StudentService } from '../services/student.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-student',
@@ -14,7 +18,7 @@ export class NewStudentPage implements OnInit {
   public myForm: FormGroup;
   public validationMessages: object;
 
-  constructor(private studentService: StudentService, private fb: FormBuilder) { }
+  constructor(private studentService: StudentService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.myForm = this.fb.group({
@@ -82,8 +86,13 @@ export class NewStudentPage implements OnInit {
       photo: this.myForm.controls.photo.value,
     }
 
-    console.log(this.studentService.newStudent(this.student));
+    this.studentService.newStudent(this.student);
+    this.back();
     
+  }
+
+  back(): void{
+    this.router.navigate(['..']);
   }
 
 }

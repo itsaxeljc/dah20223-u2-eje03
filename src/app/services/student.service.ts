@@ -1,5 +1,12 @@
+/* eslint-disable prefer-const */
+/* eslint-disable arrow-body-style */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable @typescript-eslint/quotes */
 import { Injectable } from '@angular/core';
+// eslint-disable-next-line @typescript-eslint/quotes
 import { Student } from "../models/student";
+import { map } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +15,10 @@ export class StudentService {
 
   private students: Student[];
 
-  constructor() {
+  constructor(private firestore: AngularFirestore) {
     this.students = [
       {
+        // eslint-disable-next-line @typescript-eslint/quotes
         controlnumber: "02400391",
         age: 38,
         career: "ISC",
@@ -43,13 +51,22 @@ export class StudentService {
     ];
   }
 
-  public getStudents(): Student[]{
-    return this.students;
+  public getStudents() {
+    return this.firestore.collection('students').snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data() as Student;
+          const id = a.payload.doc.id;
+          return { id, ...data }; //Destrucutor, desmembra el obj, en vez de poner data.id, data.name
+        });
+      })
+    );
   }
 
-  public removeStudent(pos: number): Student[]{
-    this.students.splice(pos, 1);
-    return this.students;
+  public removeStudent(id: string){
+    //this.students.splice(pos, 1);
+    //return this.students;
+    this.firestore.collection('students').doc(id).delete();
   }
 
   public getStudentByControlNumber(controlnumber: string): Student {
@@ -59,9 +76,18 @@ export class StudentService {
     return item;
   }
 
-  public newStudent(student: Student): Student[] {
-    this.students.push(student);
-    return this.students;
+  public newStudent(student: Student) {
+    //this.students.push(student);
+    //return this.students;
+    this.firestore.collection('students').add(student);
   }
 
+  public getStudentById(id: string){
+    let result = this.firestore.collection('students').doc(id).valueChanges();
+    return result;
+  }
+
+  public updateStudent(student: Student, id: string){
+    this.firestore.doc('students/'+id).update(student);
+  }
 }
